@@ -54,6 +54,7 @@ class CRUDCharityProject(CRUDBase):
         self,
         session: AsyncSession
     ) -> List[Dict[str, str]]:
+        """Получение отчета о времени закрытия проектов."""
         projects = await session.execute(
             select([CharityProject]).where(CharityProject.fully_invested == 1)
         )
