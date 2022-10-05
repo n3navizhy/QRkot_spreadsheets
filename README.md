@@ -2,12 +2,13 @@
 
 ## Описание
 
-Учебный проект для практики работы во фреймворке FastAPI и 
+Учебный проект для практики работы во фреймворке FastAPI и формирования отчетов в Google Sheets.
 
 **QRkot** - это API сервиса по сбору средств для финансирования благотворительных проектов. В сервисе реализована возможность регистрации пользователей, добавления благотворительных проектов и пожертвований, которые распределяются по открытым проектам.
 
-Настроено автоматическое создание первого суперпользователя при запуске проекта и создание отчетов Google Sheets
+Настроено автоматическое создание первого суперпользователя при запуске проекта.
 
+Реализована возможность получить отчет с перечнем профинансированных проектов, отсортированных по времени, потребовавшимся для полного закрытия.
 
 ## Ключевые технологии и библиотеки:
 - [Python](https://www.python.org/);
@@ -16,7 +17,7 @@
 - [Alembic](https://pypi.org/project/alembic/);
 - [Pydantic](https://pypi.org/project/pydantic/);
 - [Asyncio](https://docs.python.org/3/library/asyncio.html);
-- [Google Sheets]();
+- [Google Sheets](https://www.google.ru/intl/ru/sheets/about/);
 
 ## Установка
 1. Склонируйте репозиторий:
@@ -37,6 +38,19 @@ DATABASE_URL=sqlite+aiosqlite:///./<название базы данных>.db
 SECRET=<секретное слово>
 FIRST_SUPERUSER_EMAIL=<email суперюзера>
 FIRST_SUPERUSER_PASSWORD=<пароль суперюзера>
+
+# Данные, получаемые после настройки Google Cloud:
+TYPE=service_account
+PROJECT_ID=atomic-climate-<идентификатор>
+PRIVATE_KEY_ID=<id приватного ключа>
+PRIVATE_KEY="-----BEGIN PRIVATE KEY-----<приватный ключ>-----END PRIVATE KEY-----\n"
+CLIENT_EMAIL=<email сервисного аккаунта>
+CLIENT_ID=<id сервисного аккаунта>
+AUTH_URI=https://accounts.google.com/o/oauth2/auth
+TOKEN_URI=https://oauth2.googleapis.com/token
+AUTH_PROVIDER_X509_CERT_URL=https://www.googleapis.com/oauth2/v1/certs
+CLIENT_X509_CERT_URL=<ссылка>
+EMAIL=<email пользователя>
 ```
 4. Примените миграции для создания базы данных SQLite:
 ```
@@ -68,8 +82,8 @@ uvicorn app.main:app --reload
 - Пожертвования:
     - **/donation/** - получение списка всех пожертвований и создание пожертвования
     - **/donation/my** - получение списка всех пожертвований аутентифицированного пользователя
-- Получение отчета Google Sheets:
-    - **//** - 
+- Отчеты Google Sheets:
+    - **/google** - получение отчета о закрытых (профинансированных) проектах в формате Google Sheets. Отчет создается в указанном в .env личном аккаунте Google.
 
 Со схемами запросов и ответов можно ознакомиться в документации или в файле со спецификацией - openapi.json.
 
