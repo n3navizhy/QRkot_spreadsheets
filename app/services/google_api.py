@@ -3,23 +3,24 @@ from typing import List
 
 from aiogoogle import Aiogoogle
 
+from app.constants import (G_COLUMN_COUNT, G_FORMAT, G_LOCALE, G_ROW_COUNT,
+                           G_SHEET_ID, G_TITLE_CLOSE_SPEED, G_VERSION_DRIVE,
+                           G_VERSION_SHEETS)
 from app.core.config import settings
-
-FORMAT = "%Y/%m/%d %H:%M:%S"
 
 
 async def spreadsheets_create(wrapper_services: Aiogoogle) -> str:
-    now_date_time = datetime.now().strftime(FORMAT)
-    service = await wrapper_services.discover('sheets', 'v4')
+    now_date_time = datetime.now().strftime(G_FORMAT)
+    service = await wrapper_services.discover('sheets', G_VERSION_SHEETS)
     spreadsheets_body = {
         'properties': {'title': f'QRKot_Отчет на {now_date_time}',
-                       'locale': 'ru_RU'},
+                       'locale': G_LOCALE},
         'sheets': [{
             'properties': {'sheetType': 'GRID',
-                           'sheetId': 0,
-                           'title': 'Скорость закрытия',
-                           'gridProperties': {'rowCount': 100,
-                                              'columnCount': 11}
+                           'sheetId': G_SHEET_ID,
+                           'title': G_TITLE_CLOSE_SPEED,
+                           'gridProperties': {'rowCount': G_ROW_COUNT,
+                                              'columnCount': G_COLUMN_COUNT}
                            }
         }]
     }
@@ -39,12 +40,12 @@ async def set_user_permissions(
         'role': 'writer',
         'emailAddress': settings.email
     }
-    service = await wrapper_services.discover('drive', 'v3')
+    service = await wrapper_services.discover('drive', G_VERSION_DRIVE)
     await wrapper_services.as_service_account(
         service.permissions.create(
             fileId=spreadsheetid,
             json=permissions_body,
-            fields="id"
+            fields='id'
         )
     )
 
@@ -54,8 +55,8 @@ async def spreadsheets_update_value(
     projects: List,
     wrapper_services: Aiogoogle
 ) -> None:
-    now_date_time = datetime.now().strftime(FORMAT)
-    service = await wrapper_services.discover('sheets', 'v4')
+    now_date_time = datetime.now().strftime(G_FORMAT)
+    service = await wrapper_services.discover('sheets', G_VERSION_SHEETS)
     table_values = [
         ['Отчет от', now_date_time],
         ['Топ проектов по скорости закрытия'],
