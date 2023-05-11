@@ -85,13 +85,5 @@ uvicorn app.main:app --reload
 - Отчеты Google Sheets:
     - **/google** - получение отчета о закрытых (профинансированных) проектах в формате Google Sheets. Отчет создается в указанном в .env личном аккаунте Google.
 
-Со схемами запросов и ответов можно ознакомиться в документации или в файле со спецификацией - openapi.json.
 
 
-## Лицензия
-- ### **MIT License**
-
-### Автор
-Pushkarev Anton
-
-pushkarevantona@gmail.com
